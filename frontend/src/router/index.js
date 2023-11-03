@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 import Shortener from "@/views/Shortener.vue";
 import ShortUrlDisplay from "@/components/ShortUrlDisplay.vue";
 
