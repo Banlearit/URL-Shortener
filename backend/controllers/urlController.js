@@ -1,7 +1,6 @@
 const QRCode = require('qrcode');
 const shortId = require('shortid');
 const ShortUrl = require('../models/shortUrl')
-const PORT = process.env.PORT || 5000;
 const createShortUrl = async (req, res) => {
     try {
         const { url } = req.body;
