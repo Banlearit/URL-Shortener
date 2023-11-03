@@ -1,33 +1,7 @@
 const QRCode = require('qrcode');
 const shortId = require('shortid');
 const ShortUrl = require('../models/shortUrl')
-// const createShortUrl = async (req, res) => {
-//     try {
-//         const { url } = req.body;
-//
-//         const protocol = req.secure || req.get('X-Forwarded-Proto') === 'https' ? 'https' : 'http';
-//         const host = req.get('Host');
-//         const baseUrl = `${protocol}://${host}`;
-//         let shortUrlRecord = await ShortUrl.findOne({ full: url });
-//         if (!shortUrlRecord) {
-//             const short = shortId.generate();
-//             shortUrlRecord = await ShortUrl.create({ full: url, short });
-//         }
-//         return await respondWithShortUrl(res, shortUrlRecord, baseUrl);
-//
-//     } catch (error) {
-//         res.status(500).json({ error: 'Error in URL shortening or QR Code generation.', message: error.message });
-//     }
-// };
-//
-// const respondWithShortUrl = async (res, shortUrlRecord, baseUrl) => {
-//     if (!shortUrlRecord.qrCode) {
-//         const shortUrl = `${baseUrl}/${shortUrlRecord.short}`;
-//         shortUrlRecord.qrCode = await QRCode.toDataURL(shortUrl);
-//         await shortUrlRecord.save();
-//     }
-//     res.json({ shortUrl: `${baseUrl}/${shortUrlRecord.short}`, qrCode: shortUrlRecord.qrCode });
-// };
+
 const createShortUrl = async (req, res) => {
     try {
         const { url } = req.body;
@@ -49,8 +23,6 @@ const createShortUrl = async (req, res) => {
         res.status(500).json({ error: 'Error in URL shortening or QR Code generation.', message: error.message });
     }
 };
-
-
 const getUrl = async (req, res) => {
     const { shortUrl } = req.params;
     try {
