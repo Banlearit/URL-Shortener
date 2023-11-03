@@ -32,7 +32,8 @@ const getUrl = async (req, res) => {
             await urlRecord.save();
             res.redirect(urlRecord.full);
         } else {
-            res.status(404).json({ error: 'No URL found' });
+            res.redirect(process.env.FRONTEND_URL || 'http://localhost:5173/');
+            // res.status(404).json({ error: 'No URL found' });
         }
     } catch (error) {
         console.error('Error in getUrl:', error);
@@ -42,7 +43,7 @@ const getUrl = async (req, res) => {
 
 const getHistory = async (req,res) => {
     try {
-        const result = await ShortUrl.find({});
+        const result = await ShortUrl.find({}).sort({clicks: -1});
         if (result){
             res.send({result})
         }
