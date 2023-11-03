@@ -1,34 +1,55 @@
 const QRCode = require('qrcode');
 const shortId = require('shortid');
 const ShortUrl = require('../models/shortUrl')
+// const createShortUrl = async (req, res) => {
+//     try {
+//         const { url } = req.body;
+//
+//         const protocol = req.secure || req.get('X-Forwarded-Proto') === 'https' ? 'https' : 'http';
+//         const host = req.get('Host');
+//         const baseUrl = `${protocol}://${host}`;
+//         let shortUrlRecord = await ShortUrl.findOne({ full: url });
+//         if (!shortUrlRecord) {
+//             const short = shortId.generate();
+//             shortUrlRecord = await ShortUrl.create({ full: url, short });
+//         }
+//         return await respondWithShortUrl(res, shortUrlRecord, baseUrl);
+//
+//     } catch (error) {
+//         res.status(500).json({ error: 'Error in URL shortening or QR Code generation.', message: error.message });
+//     }
+// };
+//
+// const respondWithShortUrl = async (res, shortUrlRecord, baseUrl) => {
+//     if (!shortUrlRecord.qrCode) {
+//         const shortUrl = `${baseUrl}/${shortUrlRecord.short}`;
+//         shortUrlRecord.qrCode = await QRCode.toDataURL(shortUrl);
+//         await shortUrlRecord.save();
+//     }
+//     res.json({ shortUrl: `${baseUrl}/${shortUrlRecord.short}`, qrCode: shortUrlRecord.qrCode });
+// };
 const createShortUrl = async (req, res) => {
     try {
         const { url } = req.body;
-
+        const shortUrlRecord = await ShortUrl.findOne({ full: url });
         const protocol = req.secure || req.get('X-Forwarded-Proto') === 'https' ? 'https' : 'http';
         const host = req.get('Host');
         const baseUrl = `${protocol}://${host}`;
-
-        const existingShortUrl = await ShortUrl.findOne({ full: url });
-
-        if (existingShortUrl) {
-            return respondWithShortUrl(res, existingShortUrl, baseUrl);
+        let shortUrl;
+        if (!shortUrlRecord) {
+            const short = shortId.generate();
+            shortUrl = `${baseUrl}/${short}`;
+            await ShortUrl.create({ full: url, short });
+        } else {
+            shortUrl = `${baseUrl}/${shortUrlRecord.short}`;
         }
-
-        const short = shortId.generate();
-        const newShortUrlRecord = await ShortUrl.create({ full: url, short });
-        return respondWithShortUrl(res, newShortUrlRecord, baseUrl);
-
+        const qrCode = await QRCode.toDataURL(shortUrl);
+        res.json({ shortUrl, qrCode });
     } catch (error) {
         res.status(500).json({ error: 'Error in URL shortening or QR Code generation.', message: error.message });
     }
 };
 
-const respondWithShortUrl = async (res, shortUrlRecord, baseUrl) => {
-    const shortUrl = `${baseUrl}/${shortUrlRecord.short}`;
-    const qrCode = await QRCode.toDataURL(shortUrlRecord.full);
-    res.json({ shortUrl, qrCode });
-};
 
 const getUrl = async (req, res) => {
     const { shortUrl } = req.params;
