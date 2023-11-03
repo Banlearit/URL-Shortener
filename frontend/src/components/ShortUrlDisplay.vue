@@ -1,23 +1,24 @@
 <script setup>
 import {ref, watch} from "vue";
 const props = defineProps({
-  shortUrlData : String
-})
+  shortUrlData: Object
+});
 const shortUrl = ref('');
 
-// Generate the full short URL for use in the <a> tag
 watch(() => props.shortUrlData, (newValue) => {
-  shortUrl.value = `http://localhost:3000/${newValue.short}`;
-});
+  if (newValue) {
+    shortUrl.value = newValue.shortUrl;
+  }
+}, { deep: true });
 </script>
 
 <template>
-  <div class="mt-4">
+  <div class="mt-4" v-if="shortUrlData && shortUrlData.shortUrl">
     <div class="mb-2">
-      <a :href="shortUrl" target="_blank" class="text-blue-600 hover:underline">{{ shortUrlData.short }}</a>
+      <a :href="shortUrl" target="_blank" class="text-blue-600 hover:underline">{{ shortUrlData.shortUrl }}</a>
     </div>
-    <div>
-      <img :src="shortUrlData.qrCodeImageUrl" alt="QR Code" />
+    <div v-if="shortUrlData.qrCode">
+      <img :src="shortUrlData.qrCode" alt="QR Code" />
     </div>
   </div>
 </template>

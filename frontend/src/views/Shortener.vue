@@ -7,12 +7,12 @@ const shortUrlData = ref(null);
 
 const handleSubmit = async () => {
   try {
-    const response = await fetch('http://localhost:3000/shorten', {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/shorten`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ fullUrl: originalUrl.value }),
+      body: JSON.stringify({ url: originalUrl.value }),
     });
     if (response.ok){
       shortUrlData.value = await response.json()
@@ -32,12 +32,12 @@ const handleSubmit = async () => {
           placeholder="Enter URL to shorten"
           class="border p-2 mr-2 w-full"
       />
-      <button @click="handleSubmit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+      <button @click="handleSubmit"
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
         Shorten URL
       </button>
     </div>
-
-    <ShortUrlDisplay v-if="shortUrlData" :short-url-data="shortUrlData.value" />
+    <ShortUrlDisplay v-if="shortUrlData" :short-url-data="shortUrlData" />
 
     <UrlHistory />
   </div>
