@@ -23,16 +23,4 @@ defineEmits(["hideModal"]);
 </template>
 
 <style scoped>
-.v-enter-active {
-  transition: opacity 0.3s ease-in;
-}
-
-.v-leave-active {
-  transition: opacity 0.3s ease-out;
-}
-
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
-}
 </style>
