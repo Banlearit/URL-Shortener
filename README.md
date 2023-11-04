@@ -46,7 +46,6 @@ node app.js // run backend
 ``` shell
 npm run dev // run frontend
 ```
-### Usage
 
 ### Contact
 - Banlearit Siriboon - banlearit.siri@gmail.com
