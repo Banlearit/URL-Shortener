@@ -40,11 +40,13 @@ PORT=3000
 FRONTEND_URL=http://localhost:5173
 ```
 #### Run the application:
+run backend
 ``` sh
-node app.js // run backend
+node app.js
 ```
+run frontend
 ``` shell
-npm run dev // run frontend
+npm run dev 
 ```
 
 ### Contact
