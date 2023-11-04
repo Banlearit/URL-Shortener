@@ -6,6 +6,7 @@ Welcome to the Simple URL Shortener repository! This project is a web-based tool
 ## Features
 - **Shorten URLs**: Turn unwieldy URLs into short, memorable links.
 - **CreateQrCode**: Generate a QR code for each URL, providing a quick and contactless way to direct users to your links. Simply scan the QR code with a smartphone camera or QR reader app to access the URL without typing.
+- **Instant Search**: Quickly find any URL in your history using the search bar.
 - **History**: Access a historical list of frequently visited websites, organized by popularity.
 - **Simple UI**: Navigate through a straightforward and intuitive user interface to manage operations with ease.
 ## Technologies Used
