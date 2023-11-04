@@ -1,9 +1,27 @@
 <script setup>
+import {computed, ref} from "vue";
+
 const props = defineProps({
   historyData: {
     type: Array
   }
 })
+const searchQuery = ref('');
+
+function includesIgnoreCase(source, search) {
+  return source.toLowerCase().includes(search.toLowerCase());
+}
+
+const filteredHistoryData = computed(() =>
+    searchQuery.value.trim()
+        ? props.historyData.filter(
+            (item) =>
+                includesIgnoreCase(item.full, searchQuery.value.trim()) ||
+                includesIgnoreCase(item.short, searchQuery.value.trim()),
+        )
+        : props.historyData,
+);
+
 defineEmits(['hideModal']);
 </script>
 <template>
@@ -31,7 +49,15 @@ defineEmits(['hideModal']);
       <span class="sr-only">Close modal</span>
     </button>
       <!-- Data table -->
-      <div v-if="historyData && historyData.length" class="p-6 w-full">
+      <div class="p-3">
+        <input
+            type="text"
+            v-model="searchQuery"
+            placeholder="Search history..."
+            class="w-1/2 p-2 rounded-lg text-black"
+        />
+      </div>
+        <div v-if="filteredHistoryData && filteredHistoryData.length" class="p-6 w-full">
         <table class="w-full text-left border-collapse">
           <thead>
             <tr>
@@ -41,7 +67,7 @@ defineEmits(['hideModal']);
             </tr>
             </thead>
             <tbody>
-            <tr v-for="(item, index) in historyData" :key="index" class="hover:bg-[#2a507d]">
+            <tr v-for="(item, index) in filteredHistoryData" :key="index" class="hover:bg-[#2a507d]">
               <td class="py-2">{{ item.full }}</td>
               <td class="py-2">{{ item.short }}</td>
               <td class="py-2">{{ item.clicks }}</td>

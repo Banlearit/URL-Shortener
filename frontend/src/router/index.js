@@ -9,12 +9,6 @@ const router = createRouter({
       path: '/',
       name: 'Shortener',
       component: Shortener
-    },
-    {
-      path: '/shortUrlDisplay/:shortUrl',
-      name: 'ShortUrlDisplay',
-      component: ShortUrlDisplay,
-      props: true
     }
   ]
 })

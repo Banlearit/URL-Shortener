@@ -9,10 +9,8 @@ const showHistory = ref(false);
 const historyData = ref([]);
 const handleSubmit = async () => {
   try {
-    // Trim trailing slash from the URL if it exists
     const trimmedUrl = originalUrl.value.replace(/\/$/, '').trim();
 
-    // Validate URL format
     const urlPattern = /^(https?:\/\/)?([a-z\d.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
     if (!urlPattern.test(trimmedUrl)) {
       alert('Please enter a valid URL');
@@ -24,7 +22,7 @@ const handleSubmit = async () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ url: trimmedUrl }),  // Use the trimmed URL
+      body: JSON.stringify({ url: trimmedUrl }),
     });
 
     if (response.ok){
@@ -59,7 +57,6 @@ const toggleHistory = () => {
 </script>
 
 <template>
-
   <div class="flex flex-col items-center justify-center min-h-screen bg-[#132043]">
     <h1 class="text-center text-4xl font-bold text-white mb-4">ShortURL</h1>
     <div class="w-full max-w-md p-4 bg-white shadow-md rounded">
